@@ -1,0 +1,25 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": [
+    "A compromised release is usually caught and pulled within days, so propose a version only once it passes minimumReleaseAge. A version without a release timestamp counts as too new. Both behaviors are set explicitly so that a change to Renovate's defaults can't weaken them.",
+    "Every update is a chore, so a changelog built from commit types leaves it out.",
+    "Actions and Docker images are pinned to a digest, so a moved tag can't change what runs. Renovate updates the digest and its version comment together.",
+    "Updates merge on their own once they pass minimumReleaseAge and every status check, so a repository nobody works on still gets fixes. A major update can break the code that uses it, so it waits for review."
+  ],
+  "extends": [
+    "config:recommended",
+    ":semanticCommitTypeAll(chore)",
+    "helpers:pinGitHubActionDigests",
+    "docker:pinDigests"
+  ],
+  "minimumReleaseAge": "7 days",
+  "minimumReleaseAgeBehaviour": "timestamp-required",
+  "internalChecksFilter": "strict",
+  "automerge": true,
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    }
+  ]
+}
